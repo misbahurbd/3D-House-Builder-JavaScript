@@ -1,0 +1,174 @@
+$colors: #d099d5 #9ddca0 #9dbcdc #f8d09a #a7afdd #f2eaa0 #d0a48e #e69e9e;
+$hover-colors: #460f4b #135216 #135216 #135216 #135216 #135216 #5a4236 #5a4236;
+
+*, *::before, *::after {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+body {
+    height: 100vh;
+    background-color: #111111;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+.box-block {
+    $box-size: 150px;
+    position: relative;
+    .box {
+        position: relative;
+        width: $box-size;
+        height: $box-size;
+        background: #fff;
+        border-radius: 25px;
+        animation: boxEffect 300ms ease-out forwards 4500ms;
+        .person {
+            position: absolute;
+            display: block;
+            width: 100%;
+            height: 100%;
+            left: 0;
+            top: 0;
+            border-radius: 25px;
+            transition: opacity 600ms ease;
+            &:nth-child(2) {
+                opacity: 0;
+            }
+        }
+        @keyframes boxEffect {
+            100% {
+                transform: scale(0.9);
+            }
+        }
+        &:hover {
+            background-color: black;
+            .person:nth-child(2) {
+                opacity: 1;
+            }
+        }
+    }
+    .curcle {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: calc(50% - #{$box-size / 2});
+        left: calc(50% - #{$box-size / 2});
+        transform: rotate(0deg);
+        animation: rotate 50s linear infinite 5000ms;
+        pointer-events: none;
+        @keyframes rotate {
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+        @for $i from 0 through 7 {
+            .icon-box:nth-child(#{$i + 1}) {
+                --icon-scale-delay: #{250 * $i}ms;
+                --angle: #{360 / 8 * -$i}deg;
+                --box-delay: #{80 * ($i + 1) + 500}ms;
+                .content {
+                    background: nth($colors, $i + 1);
+                    &:hover {
+                        background: nth($hover-colors, $i + 1);
+                    }
+                }
+            }
+        }
+        .icon-box {
+            position: absolute;
+            $icon-size: 20px;
+            width: $icon-size;
+            height: $icon-size;
+            top: calc(50% - #{$icon-size / 2});
+            left: calc(50% - #{$icon-size / 2});
+            transform: rotate(var(--angle)) translateY(-50px);
+            pointer-events: all;
+            animation: popIconBox 500ms ease-out forwards var(--box-delay), iconPositionBack 300ms ease-out forwards 4500ms;
+            @keyframes popIconBox {
+                100% {
+                    $icon-size: 100px;
+                    width: $icon-size;
+                    height: $icon-size;
+                    top: calc(50% - #{$icon-size / 2});
+                    left: calc(50% - #{$icon-size / 2});
+                    transform: rotate(var(--angle)) translateY(-200px);
+                }
+            }
+            @keyframes iconPositionBack {
+                100% {
+                    transform: rotate(var(--angle)) translateY(-160px);
+                }
+            }
+            .box-outer {
+                width: 100%;
+                height: 100%;
+                animation: rotate 50s linear reverse infinite 5000ms;
+                .box-inner {
+                    width: 100%;
+                    height: 100%;
+                    transform: rotate(calc(var(--angle) * -1));
+                    .content {
+                        width: 100%;
+                        height: 100%;
+                        border-radius: 50%;
+                        position: relative;
+                        animation: iconPulse 1.5s infinite ease-in-out calc(var(--icon-scale-delay) + 3000ms);
+                            
+                        @keyframes iconPulse {
+                            0%, 100% {
+                                transform: scale(1);
+                            } 50% {
+                                transform: scale(.9);
+                            }
+                        }
+                        .icon {
+                            display: block;
+                            position: absolute;
+                            top: 50%;
+                            left: 50%;
+                            transform: translate(-50%, -50%) scale(0);
+                            transition: opacity 300ms ease;
+                            animation: icon 1.2s linear forwards calc(var(--icon-scale-delay) + 1000ms);
+                            @keyframes icon {
+                                100% {
+                                    transform: translate(-50%, -50%) scale(1);
+                                }
+                            }
+                        }
+                        .text {
+                            width: 100%;
+                            color: #fff;
+                            text-align: center;
+                            font-family: sans-serif;
+                            font-size: .9rem;
+                            padding: 1rem;
+                            opacity: 0;
+                            position: absolute;
+                            top: 50%;
+                            left: 50%;
+                            transform: translate(-50%, -50%);
+                            transition: opacity 300ms ease;
+                        }
+                        &:hover {
+                            animation-play-state:paused;
+                            .icon {
+                                opacity: 0;
+                            }
+                            .text {
+                                opacity: 1;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        &:hover {
+            animation-play-state: paused;
+            .box-outer {
+                animation-play-state: paused;
+            }
+        }
+    }
+}
