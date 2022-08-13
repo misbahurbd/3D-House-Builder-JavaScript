@@ -130,6 +130,9 @@ body {
                             position: absolute;
                             top: 50%;
                             left: 50%;
+                            width: 40px;
+                            height: 40px;
+                            object-fit: contain;
                             transform: translate(-50%, -50%) scale(0);
                             transition: opacity 300ms ease;
                             animation: icon 1.2s linear forwards calc(var(--icon-scale-delay) + 1000ms);
