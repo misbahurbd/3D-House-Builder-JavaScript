@@ -33,6 +33,7 @@ body {
             top: 0;
             border-radius: 25px;
             transition: opacity 600ms ease;
+            cursor: pointer;
             &:nth-child(2) {
                 opacity: 0;
             }
@@ -114,6 +115,7 @@ body {
                         height: 100%;
                         border-radius: 50%;
                         position: relative;
+                        cursor: pointer;
                         animation: iconPulse 1.5s infinite ease-in-out calc(var(--icon-scale-delay) + 3000ms);
                             
                         @keyframes iconPulse {
